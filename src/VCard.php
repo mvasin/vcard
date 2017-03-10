@@ -437,7 +437,7 @@ class VCard
         $properties = $this->getProperties();
         foreach ($properties as $property) {
             // add to string
-            $string .= $property['key'] . ':' . $this->escape($property['value'] . "\r\n");
+            $string .= $this->fold($property['key'] . ':' . $this->escape($property['value']) . "\r\n");
         }
 
         // add to string
@@ -533,6 +533,23 @@ class VCard
     }
 
     /**
+     * Fold a line according to RFC2425 section 5.8.1.
+     *
+     * @link http://tools.ietf.org/html/rfc2425#section-5.8.1
+     * @param  string $text
+     * @return mixed
+     */
+    protected function fold($text)
+    {
+        // if (strlen($text) <= 75) {
+            return $text;
+        // }
+
+        // split, wrap and trim trailing separator
+        // return substr(chunk_split($text, 74, "\r\n "), 0, -3);
+    }
+
+    /**
      * Escape newline characters according to RFC2425 section 5.8.4.
      *
      * @link http://tools.ietf.org/html/rfc2425#section-5.8.4
@@ -575,11 +592,11 @@ class VCard
      */
     public function getCharsetString()
     {
-        $charsetString = '';
-        if ($this->charset == 'utf-8') {
-            $charsetString = ';charset=UTF-8';
-        }
-
+        // $charsetString = '';
+        // if ($this->charset == 'utf-8') {
+            // $charsetString = ';charset=' . $this->charset;
+        // }
+        $charsetString = ';charset=UTF-8';
         return $charsetString;
     }
 
